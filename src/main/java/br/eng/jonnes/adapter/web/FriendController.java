@@ -3,8 +3,8 @@ package br.eng.jonnes.adapter.web;
 import br.eng.jonnes.core.domain.model.Friend;
 import br.eng.jonnes.core.domain.model.FriendCheckMajorityRequest;
 import br.eng.jonnes.core.domain.model.FriendRegisterRequest;
-import br.eng.jonnes.core.usecase.CheckFriendMajorityUseCase;
-import br.eng.jonnes.core.usecase.RegisterFriendUseCase;
+import br.eng.jonnes.core.port.in.CheckFriendMajorityInputPort;
+import br.eng.jonnes.core.port.in.RegisterFriendInputPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,24 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController(value = "/friend")
 public class FriendController {
 
-    private final CheckFriendMajorityUseCase checkFriendMajorityUseCase;
-    private final RegisterFriendUseCase registerFriendUseCase;
+    private final CheckFriendMajorityInputPort checkFriendMajorityInputPort;
+    private final RegisterFriendInputPort registerFriendInputPort;
 
-    public FriendController(CheckFriendMajorityUseCase checkFriendMajorityUseCase, RegisterFriendUseCase registerFriendUseCase) {
-        this.checkFriendMajorityUseCase = checkFriendMajorityUseCase;
-        this.registerFriendUseCase = registerFriendUseCase;
+    public FriendController(CheckFriendMajorityInputPort checkFriendMajorityInputPort,
+                            RegisterFriendInputPort registerFriendInputPort) {
+        this.checkFriendMajorityInputPort = checkFriendMajorityInputPort;
+        this.registerFriendInputPort = registerFriendInputPort;
     }
 
     @GetMapping
     public ResponseEntity<Friend> checkFriendMajority(@RequestBody FriendCheckMajorityRequest friendCheckMajorityRequest) {
-        var friend = checkFriendMajorityUseCase.check(friendCheckMajorityRequest);
+        var friend = checkFriendMajorityInputPort.check(friendCheckMajorityRequest);
         return ResponseEntity.ok(friend);
     }
 
     @PostMapping
     public ResponseEntity<Friend> registerFriend(@RequestBody FriendRegisterRequest friendRegisterRequest) {
-        var friend = registerFriendUseCase.register(friendRegisterRequest);
+        var friend = registerFriendInputPort.register(friendRegisterRequest);
         var uriOfCreatedFriend = "must be implemented";
         return new ResponseEntity<>(friend, HttpStatus.CREATED);
     }
+
 }
