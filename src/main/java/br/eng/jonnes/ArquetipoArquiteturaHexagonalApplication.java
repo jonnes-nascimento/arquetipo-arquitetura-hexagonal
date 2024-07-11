@@ -1,0 +1,13 @@
+package br.eng.jonnes;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ArquetipoArquiteturaHexagonalApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ArquetipoArquiteturaHexagonalApplication.class, args);
+	}
+
+}
