@@ -5,6 +5,8 @@ import br.eng.jonnes.adapter.repository.FriendRepository;
 import br.eng.jonnes.adapter.repository.jpa.FriendJpaRepository;
 import br.eng.jonnes.adapter.repository.mapper.FriendMapper;
 import br.eng.jonnes.core.domain.behavior.MajorityChecker;
+import br.eng.jonnes.core.port.in.CheckFriendMajorityInputPort;
+import br.eng.jonnes.core.port.in.RegisterFriendInputPort;
 import br.eng.jonnes.core.port.out.FetchCurrentAgeOfMajorityOutputPort;
 import br.eng.jonnes.core.port.out.SaveFriendOutputPort;
 import br.eng.jonnes.core.usecase.CheckFriendMajorityUseCase;
@@ -26,6 +28,13 @@ public class CoreInjection {
     }
 
     @Bean
+    public CheckFriendMajorityInputPort checkFriendMajorityInputPort(MajorityChecker majorityChecker,
+                                                                     FetchCurrentAgeOfMajorityOutputPort fetchCurrentAgeOfMajorityOutputPort) {
+        return new CheckFriendMajorityUseCase(majorityChecker,
+                fetchCurrentAgeOfMajorityOutputPort);
+    }
+
+    @Bean
     public SaveFriendOutputPort saveFriendOutputPort(FriendJpaRepository friendJpaRepository,
                                                      FriendMapper friendMapper) {
         return new FriendRepository(friendJpaRepository,
@@ -33,18 +42,12 @@ public class CoreInjection {
     }
 
     @Bean
-    public CheckFriendMajorityUseCase checkFriendMajorityUseCase(MajorityChecker majorityChecker,
-                                                                 FetchCurrentAgeOfMajorityOutputPort fetchCurrentAgeOfMajorityOutputPort) {
-        return new CheckFriendMajorityUseCase(majorityChecker,
-                fetchCurrentAgeOfMajorityOutputPort);
-    }
-
-    @Bean
-    public RegisterFriendUseCase registerFriendUseCase(SaveFriendOutputPort saveFriendOutputPort,
-                                                       FetchCurrentAgeOfMajorityOutputPort fetchCurrentAgeOfMajorityOutputPort,
-                                                       MajorityChecker majorityChecker) {
+    public RegisterFriendInputPort registerFriendInputPort(SaveFriendOutputPort saveFriendOutputPort,
+                                                           FetchCurrentAgeOfMajorityOutputPort fetchCurrentAgeOfMajorityOutputPort,
+                                                           MajorityChecker majorityChecker) {
         return new RegisterFriendUseCase(saveFriendOutputPort,
                 fetchCurrentAgeOfMajorityOutputPort,
                 majorityChecker);
     }
+
 }
