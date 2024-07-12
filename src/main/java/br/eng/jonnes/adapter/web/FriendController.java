@@ -54,7 +54,7 @@ public class FriendController {
 
         try {
             uriOfCreatedFriend = new URI("http://localhost");
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         return ResponseEntity.created(uriOfCreatedFriend).body(friend);
