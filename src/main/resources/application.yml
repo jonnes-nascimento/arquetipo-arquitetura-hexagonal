@@ -1,15 +1,24 @@
 server:
   port: 8080
+  error:
+    path: /error
+    whitelabel:
+      enabled: false
 
 spring:
   application:
     name: "arquetipo-arquitetura-hexagonal"
 
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .html
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: "jdbc:postgresql://localhost:5432/testDB"
     username: "postgres"
-    password: "<SENHA AQUI>"
+    password: "surflife"
 
   jpa:
     hibernate:

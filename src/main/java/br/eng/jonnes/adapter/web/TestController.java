@@ -1,5 +1,6 @@
 package br.eng.jonnes.adapter.web;
 
+import br.eng.jonnes.core.domain.exception.TestException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,5 +23,15 @@ public class TestController {
     })
     public ResponseEntity<String> checkOk() {
         return ResponseEntity.ok("Here's everything OK!");
+    }
+
+    @GetMapping(value = "/testException",
+            produces = MediaType.TEXT_PLAIN_VALUE
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "418", description = "I refuse to accept this request, your bastard >:/")
+    })
+    public ResponseEntity<String> testException() {
+        throw new TestException("I refuse to accept this request, your bastard >:/");
     }
 }
